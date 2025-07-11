@@ -83,18 +83,42 @@ def coords_render(coordinates, split, width, height, thickness, board=5):
             max_x = max(x, max_x)
             min_y = min(y, min_y)
             max_y = max(y, max_y)
-    original_size = max(max_x-min_x, max_y-min_y)
+    # original_size = max(max_x-min_x, max_y-min_y)
+    original_width = max_x-min_x
+    original_height = max_y-min_y
+    if original_height>original_width:
+        scaleWidth=p_canvas_h/original_height*original_width
+        scaleHeith=p_canvas_h
+    else:
+        scaleWidth=p_canvas_w
+        scaleHeith=p_canvas_w/original_width*original_height
     canvas = Image.new(mode='L', size=(canvas_w, canvas_h), color=255)
     draw = ImageDraw.Draw(canvas)
 
     for stroke in xys_split:
         xs, ys = stroke[:, 0], stroke[:, 1]
         xys = np.stack([xs, ys], axis=-1).reshape(-1)
-        xys[::2] = (xys[::2]-min_x) / original_size * p_canvas_w + board_w 
-        xys[1::2] = (xys[1::2] - min_y) / original_size * p_canvas_h + board_h
+        # xys[::2] = (xys[::2]-min_x) / original_size * p_canvas_w + board_w 
+        # xys[1::2] = (xys[1::2] - min_y) / original_size * p_canvas_h + board_h
+        xys[::2] = (xys[::2]-min_x) / original_width * scaleWidth  + (p_canvas_w-scaleWidth)/2 + board_w
+        xys[1::2] = (xys[1::2] - min_y) / original_height * scaleHeith + (p_canvas_h-scaleHeith)/2+ board_h
         xys = np.round(xys)
         draw.line(xys.tolist(), fill=0, width=thickness)
     return canvas
+
+
+    # original_size = max(max_x-min_x, max_y-min_y)
+    # canvas = Image.new(mode='L', size=(canvas_w, canvas_h), color=255)
+    # draw = ImageDraw.Draw(canvas)
+
+    # for stroke in xys_split:
+    #     xs, ys = stroke[:, 0], stroke[:, 1]
+    #     xys = np.stack([xs, ys], axis=-1).reshape(-1)
+    #     xys[::2] = (xys[::2]-min_x) / original_size * p_canvas_w + board_w 
+    #     xys[1::2] = (xys[1::2] - min_y) / original_size * p_canvas_h + board_h
+    #     xys = np.round(xys)
+    #     draw.line(xys.tolist(), fill=0, width=thickness)
+    # return canvas
 
 # fix random seeds for reproducibility
 def fix_seed(random_seed):

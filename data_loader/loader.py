@@ -242,7 +242,8 @@ class test_offline_Style_Dataset(Dataset):
             self.writer_dict = pickle.load(open(os.path.join(root, 'writer_dict.pkl'), 'rb'))
         else:
             self.writer_dict = [i for i in range(60)]
-        all_jpg = glob.glob(os.path.join(root,'test/*.jpg'))
+        # all_jpg = glob.glob(os.path.join(root,'test/*.jpg'))
+        all_jpg = glob.glob(os.path.join(root,'*.png'))
         all_jpg = sorted(all_jpg)
         self.all_len = len(all_jpg)
         for path in all_jpg:
@@ -272,11 +273,9 @@ class test_offline_Style_Dataset(Dataset):
             img = Image.open(path).convert('L')
             data = transform_data(img)
             img_list.append(data)
-        label = int(pot_name)
+        # label = int(pot_name)
+        label = pot_name  # 直接用字符串
         img_list = torch.cat(img_list,0)
-        if num_random==1:
-            char = os.path.basename(path).split('_')[1]
-            return img_list, label, char
         return img_list, label
 
     def __len__(self):

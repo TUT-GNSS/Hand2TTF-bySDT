@@ -1,5 +1,24 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ![MIT LICENSE](https://shields.io/badge/license-MIT-green)
 ![python 3.8](https://img.shields.io/badge/python-3.8-brightgreen)
+
 # 🔥 Disentangling Writer and Character Styles for Handwriting Generation
 
  <p align='center'>
@@ -200,5 +219,4 @@ If you find our work inspiring or use our codebase in your research, please cite
 
 ## ⭐ StarGraph
 [![Star History Chart](https://api.star-history.com/svg?repos=dailenson/SDT&type=Timeline)](https://star-history.com/#dailenson/SDT&Timeline)
-
 

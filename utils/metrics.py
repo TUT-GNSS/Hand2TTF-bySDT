@@ -48,7 +48,26 @@ def get_style_score(test_loader,pretrained_model):
     model.eval()
     with torch.no_grad():
         for data, labels in tqdm.tqdm(test_loader):
-            data, labels = data.cuda(), labels.cuda()
+            if isinstance(data, list) or isinstance(data, tuple):
+                data = data[0]
+            if isinstance(labels, list) or isinstance(labels, tuple):
+                labels = labels[0]
+            
+            # 处理数据
+            data = data.cuda()
+            
+            # 处理标签 - 如果是字符串，需要转换为数字ID
+            if isinstance(labels, str):
+                # 从字符串中提取数字ID，例如 "1.pot" -> 1
+                try:
+                    label_id = int(labels.split('.')[0])
+                    labels = torch.tensor([label_id]).cuda()
+                except:
+                    print(f"无法解析标签: {labels}")
+                    continue
+            else:
+                labels = labels.cuda()
+            
             test_preds = model(data)
             prediction = torch.argmax(test_preds, 1)
             correct += (prediction == labels).sum().float()
