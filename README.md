@@ -26,7 +26,7 @@ python split_handwritten_chinese.py
 
 2. **AI 推理生成点序列并导出 SVG**  
    使用 `user_generate_ttf.py`：
-   - 加载`Chinese_style_iter60k_acc999.pth`模型，对每个单字图片进行推理，输出点序列。
+   - 加载`checkpoint-iter199999.pth`模型，对每个单字图片进行推理，输出点序列。
    - 直接将每个汉字的点序列转换为 SVG 矢量文件，SVG 文件以 Unicode 命名（如 `u+4e00.svg`），保存在 `Generated/ttf/Chinese_User/svg` 目录下。
 
 提前下载 CHINESE_USER.yml 到 configs 和 checkpoint-iter199999.pth 到 checkpoint
