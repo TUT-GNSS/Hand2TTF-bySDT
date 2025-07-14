@@ -6,12 +6,14 @@ SDT🔗：https://github.com/dailenson/SDT
 
 🔨 Requirements
 
-```
+```shell
 conda create -n sdt python=3.8 -y
 conda activate sdt
 # install all dependencies
 conda env create -f environment.yml
+pip install opencv-python numpy scikit-image easyocr torch tqdm
 ```
+
 
 1. **图片预处理与单字分割**  
    使用 `split_handwritten_chinese.py` 对手写字照片进行处理：
@@ -29,13 +31,15 @@ python split_handwritten_chinese.py
    - 加载`checkpoint-iter199999.pth`模型，对每个单字图片进行推理，输出点序列。
    - 直接将每个汉字的点序列转换为 SVG 矢量文件，SVG 文件以 Unicode 命名（如 `u+4e00.svg`），保存在 `Generated/ttf/Chinese_User/svg` 目录下。
 
-提前下载 CHINESE_USER.yml 到 configs 和 checkpoint-iter199999.pth 到 checkpoint
+提前下载 CHINESE_USER.yml 到 configs 和 checkpoint-iter199999.pth 到 checkpoint [下载参考](https://github.com/dailenson/SDT?tab=readme-ov-file#-pre-trained-model)
 
 ```shell
 python user_generate_ttf.py --cfg configs/CHINESE_USER.yml --dir Generated/ttf/Chinese_User --pretrained_model checkpoints/checkpoint-iter199999.pth --style_path style_samples
 ```
 
+
 3. **SVG 批量转为 TTF 字体文件**  
+   [fontforge下载](https://fontforge.org/en-US/downloads/)
    使用 `svg2ttf.py`（需安装 fontforge）：
    - 批量导入所有 SVG 文件。
    - 自动将线条“描边转面”，生成封闭的字形轮廓，适合字体格式。
